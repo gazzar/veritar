@@ -1,0 +1,15 @@
+Software Installation Instructions
+----------------------------------
+
+To install the program run:
+
+  python setup.py install
+
+For installation to a custom location you can use something like the following:
+
+  python setup.py install --prefix=/usr --root=/tmp
+
+For more information about the 'install' command, study the help message:
+
+  python setup.py --help install
+

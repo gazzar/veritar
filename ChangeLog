@@ -1,0 +1,27 @@
+VeriTAR ChangeLog
+
+== 0.3.0 -> 0.4.0 ==
+
+ * Improved exception handling.
+ * Re-designed the verification algorithm
+
+== 0.2.0 -> 0.3.0 ==
+
+ * Code re-design
+ * Added translation of TAR member types
+ * Various minor fixes.
+
+== 0.1.0 -> 0.2.0 ==
+
+ * Added command line options for message detail.
+ * The program now processes only TAR members that are 'regular files'.
+ * Added counters and summary.
+ * Various minor fixes.
+ * Added timer.
+ * Added installation script.
+ * Added launch script.
+
+== 0.0.0 -> 0.1.0 ==
+
+ * Initial public alpha release
+
