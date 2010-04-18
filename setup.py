@@ -39,7 +39,8 @@
 #    python setup.py install --prefix=/usr
 #
 
-from distutils.core import setup
+#from distutils.core import setup
+from setuptools import setup
 from VeriTAR import __version__
 
 p_name = "veritar"
@@ -91,7 +92,7 @@ if __name__=='__main__':
 		download_url = p_download_url,
 		license = p_license,
 		classifiers = p_classifiers,
-		py_modules = ["VeriTAR"],
-		scripts = ['veritar']
+		py_modules = ["VeriTAR", "SigTAR"],
+		scripts = ['veritar', 'sigtar']
 		)
 

@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 #  VeriTAR: In-place verification of the MD5 sums of files within a tar archive.
@@ -180,7 +179,8 @@ class Stats:
 			ssw("SUCCESS")
 		ssw("\n%s\n" % ("-" * len(title)))
 		sys.stdout.flush()
-	
+
+
 
 class TarVerification:
 
@@ -245,39 +245,50 @@ class TarVerification:
 						type_translator[getattr(tarfile, t_attrib)] = t_attrib
 		return type_translator
 	
+	def __check_member(self, member):
+		"""Checks one member
+		"""
+		self.s.IncProcessed()
+		if member.isfile():
+			if self.csums.has_key(member.name):
+				checksum = self.__member_md5sum(member)
+				if checksum == self.csums[member.name]:
+					self.s.IncGood(member.name)
+				else:
+					self.s.IncCorrupted(member.name)
+				del self.csums[member.name]
+			else:
+				self.s.IncMissing(member.name)
+		else:
+			if self.csums.has_key(member.name):
+				del self.csums[member.name]
+			self.s.IncSkipped(member.name, self.type_translator[member.type])
+	
+	def __process_remnants(self):
+		"""If the checksums-file contains more items than the TAR
+		members it is assumed that the archive is corrupted.
+		"""
+		if self.csums:
+			for remnant in self.csums.keys():
+				self.s.IncProcessed()
+				self.s.IncCorrupted(remnant)
 	def run(self):
 		while True:
 			try:
 				member = self.f_tar.next()
 			except IOError:
+				# Counted in __process_remnants()
 				continue
 			else:
 				if not member:
 					break
 				else:
-					self.s.IncProcessed()
-					if member.isfile():
-						if self.csums.has_key(member.name):
-							checksum = self.__member_md5sum(member)
-							if checksum == self.csums[member.name]:
-								self.s.IncGood(member.name)
-							else:
-								self.s.IncCorrupted(member.name)
-							del self.csums[member.name]
-						else:
-							self.s.IncMissing(member.name)
-					else:
-						if self.csums.has_key(member.name):
-							del self.csums[member.name]
-						self.s.IncSkipped(member.name, self.type_translator[member.type])
+					self.__check_member(member)
+		self.__process_remnants()
 		self.__close_archive()
-		if self.csums:
-			# If the checksums-file contains more items than the TAR
-			# members it is assumed that the archive is corrupted.
-			for remnant in self.csums.keys():
-				self.s.IncProcessed()
-				self.s.IncCorrupted(remnant)
 		self.s.summary()
+
+
 
 def parse_cli():
 	usage = """
@@ -307,6 +318,8 @@ anyway.""")
 		parser.error("Invalid file path: %s" % args[1])
 	return opts, args
 
+
+
 def main():
 	start = time.time()
 	opts, args = parse_cli()
@@ -321,6 +334,8 @@ def main():
 		finish = time.time()
 		sys.stdout.write("Elapsed: %.3f sec\n" % (finish -start))
 		sys.stdout.flush()
+
+
 
 if __name__ == '__main__':
 	main()

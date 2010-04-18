@@ -10,4 +10,6 @@ include setup.cfg
 include setup.py
 include veritar
 include VeriTAR.py
+include sigtar
+include SigTAR.py
 
