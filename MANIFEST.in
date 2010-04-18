@@ -8,8 +8,7 @@ include NOTICE
 include README
 include setup.cfg
 include setup.py
-include veritar
-include VeriTAR.py
-include sigtar
-include SigTAR.py
+include scripts/veritar
+include scripts/sigtar
+recursive-include VeriTAR *.py
 

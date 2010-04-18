@@ -1,7 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  VeriTAR: In-place verification of the MD5 sums of files within a tar archive.
+#  SigTAR: Creates a TAR archive and a file containing the md5 sums of each of
+#          the archive's contents.
 #
 #  Project: https://www.codetrax.org/projects/veritar
 #
@@ -20,7 +21,7 @@
 #  limitations under the License.
 #
 
-import VeriTAR
+import VeriTAR.SigTAR
 
-VeriTAR.main()
+VeriTAR.SigTAR.main()
 

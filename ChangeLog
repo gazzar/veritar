@@ -1,5 +1,9 @@
 VeriTAR ChangeLog
 
+== 0.4.0 -> 0.5.0 ==
+
+ * Added the VeriTAR package.
+
 == 0.3.0 -> 0.4.0 ==
 
  * Improved exception handling.

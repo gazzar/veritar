@@ -1,12 +1,12 @@
-#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  SigTAR: Creates a TAR archive and a file containing the md5 sums of each of
-#          the archive's contents.
+#  This file is part of veritar.
+#
+#  veritar - 
 #
 #  Project: https://www.codetrax.org/projects/veritar
 #
-#  Copyright 2007 George Notaras <gnot [at] g-loaded.eu>, CodeTRAX.org
+#  Copyright 2009 George Notaras <gnot [at] g-loaded.eu>, CodeTRAX.org
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -20,8 +20,4 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-
-import SigTAR
-
-SigTAR.main()
 
