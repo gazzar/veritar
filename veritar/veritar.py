@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#  VeriTAR: In-place verification of the MD5 sums of files within a tar archive.
+#  veritar: In-place verification of the MD5 sums of files within a tar archive.
 #
 #  Project: https://www.codetrax.org/projects/veritar
 #
@@ -19,15 +19,14 @@
 #  limitations under the License.
 #
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 __author__ = "George Notaras <gnot -at- g-loaded.eu>"
 __credits__ = ""
 
 import os
 import sys
 import tarfile
-#import hashlib
-import md5	# for compatibility with older Python versions
+import hashlib
 from optparse import OptionParser
 import time
 
@@ -70,8 +69,8 @@ def get_member_md5sum(f):
 			raise IOError("Corrupted Member")
 		else:
 			return data_block
-	#m = hashlib.md5()
-	m = md5.new()
+	m = hashlib.md5()
+	# m = md5.new()
 	data = read_block()
 	while data:
 		m.update(data)
@@ -213,7 +212,7 @@ class TarVerification:
 	def __open_archive(self, tarpath):
 		try:
 			f_tar = tarfile.open(tarpath, "r|*")
-		except tarfile.ReadError, e:
+		except tarfile.ReadError as e:
 			err("ERROR: %s: %s" % (str(e)[:str(e).find(":")], tarpath))
 			sys.exit(1)
 		else:
@@ -241,7 +240,7 @@ class TarVerification:
 		for t_attrib in dir(tarfile):
 			if t_attrib.find("TYPE") != -1:
 				if t_attrib not in ("REGULAR_TYPES", "SUPPORTED_TYPES"):
-					if not type_translator.has_key(t_attrib):
+					if t_attrib not in type_translator:
 						type_translator[getattr(tarfile, t_attrib)] = t_attrib
 		return type_translator
 	
@@ -250,7 +249,7 @@ class TarVerification:
 		"""
 		self.s.IncProcessed()
 		if member.isfile():
-			if self.csums.has_key(member.name):
+			if member.name in self.csums:
 				checksum = self.__member_md5sum(member)
 				if checksum == self.csums[member.name]:
 					self.s.IncGood(member.name)
@@ -260,7 +259,7 @@ class TarVerification:
 			else:
 				self.s.IncMissing(member.name)
 		else:
-			if self.csums.has_key(member.name):
+			if member.name in self.csums:
 				del self.csums[member.name]
 			self.s.IncSkipped(member.name, self.type_translator[member.type])
 	
@@ -269,7 +268,7 @@ class TarVerification:
 		members it is assumed that the archive is corrupted.
 		"""
 		if self.csums:
-			for remnant in self.csums.keys():
+			for remnant in list(self.csums.keys()):
 				self.s.IncProcessed()
 				self.s.IncCorrupted(remnant)
 	def run(self):
