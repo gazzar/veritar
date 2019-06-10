@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  VeriTAR: In-place verification of the MD5 sums of files within a tar archive.
+#  veritar: In-place verification of the MD5 sums of files within a tar archive.
 #
 #  Project: https://www.codetrax.org/projects/veritar
 #
@@ -20,7 +20,7 @@
 #  limitations under the License.
 #
 
-import VeriTAR.VeriTAR
+import veritar.veritar
 
-VeriTAR.VeriTAR.main()
+veritar.veritar.main()
 
