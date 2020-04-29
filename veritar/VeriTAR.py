@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#  VeriTAR: In-place verification of the MD5 sums of files within a tar archive.
+#  veritar: In-place verification of the MD5 sums of files within a tar archive.
 #
 #  Project: https://www.codetrax.org/projects/veritar
 #
@@ -27,7 +27,6 @@ import os
 import sys
 import tarfile
 import hashlib
-# import md5    # for compatibility with older Python versions
 from optparse import OptionParser
 import time
 from textwrap import dedent
@@ -72,12 +71,12 @@ def get_member_md5sum(f):
         else:
             return data_block
     m = hashlib.md5()
-    # m = md5.new()
     data = read_block()
     while data:
         m.update(data)
         data = read_block()
     return m.hexdigest()
+
 
 def get_valid_checksums(path):
     """Returns a dictionary of items: 'name:md5sum'
@@ -185,7 +184,6 @@ class Stats:
 
 
 class TarVerification:
-
     TAR_IGNORE_ZEROS = True
     TAR_DEBUG = 1
     TAR_ERRORLEVEL = 2
