@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 #  This file is part of veritar.
@@ -36,16 +35,16 @@
 #    python setup.py install --prefix=/usr --root=/tmp
 #
 #  Install:
-#    python setup.py install
+#    pip install
 #  Or:
-#    python setup.py install --prefix=/usr
+#    pip install --prefix=/usr
 #
 
 
 from distutils.core import setup
 
 # from setuptools import setup
-from VeriTAR import info
+from veritar import info
 
 if __name__ == "__main__":
     setup(

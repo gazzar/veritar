@@ -20,6 +20,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+#  Gary Ruben ported the veritar functionality to Python3.
 
 version = "0.6.0"
 status = "alpha"
@@ -55,7 +56,7 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
     "Topic :: System :: Archiving",
     "Topic :: Utilities",
 ]
