@@ -2,7 +2,7 @@
 #
 #  This file is part of veritar.
 #
-#  veritar - 
+#  veritar -
 #
 #  Project: https://www.codetrax.org/projects/veritar
 #
@@ -21,45 +21,45 @@
 #  limitations under the License.
 #
 
-version = '0.5.0'
-status = 'alpha'
-name = 'veritar'
+version = "0.6.0"
+status = "alpha"
+name = "veritar"
 description = """veritar"""
 long_description = """veritar"""
-author = 'George Notaras'
-author_email = 'gnot@g-loaded.eu'
-url = 'http://www.codetrax.org/projects/' + name
-download_url = "http://www.codetrax.org/downloads/projects/" + name + "/" + name + "-" + version + ".tar.gz"
+author = "George Notaras, Gary Ruben"
+author_email = "gnot@g-loaded.eu, gary.ruben@gmail.com"
+url = "https://github.com/gazzar/veritar"
+
 license = "Apache License version 2"
 
 # Automate the development status for classifiers
-devel_status = ''
-if status == 'pre-alpha':
-	devel_status = 'Development Status :: 2 - Pre-Alpha'
-if status == 'alpha':
-	devel_status = 'Development Status :: 3 - Alpha'
-if status == 'beta':
-	devel_status = 'Development Status :: 4 - Beta'
-if status == 'stable':
-	devel_status = 'Development Status :: 5 - Production/Stable'
+devel_status = ""
+if status == "pre-alpha":
+    devel_status = "Development Status :: 2 - Pre-Alpha"
+if status == "alpha":
+    devel_status = "Development Status :: 3 - Alpha"
+if status == "beta":
+    devel_status = "Development Status :: 4 - Beta"
+if status == "stable":
+    devel_status = "Development Status :: 5 - Production/Stable"
 
 # For a list of classifiers check: http://www.python.org/pypi/
 # (http://pypi.python.org/pypi?:action=list_classifiers)
 
 classifiers = [
-	devel_status,
-	"Environment :: Console",
-	"Intended Audience :: Information Technology",
-	"Intended Audience :: Developers",
-	"Intended Audience :: System Administrators",
-	"License :: OSI Approved :: Apache Software License",
-	"Natural Language :: English",
-	"Operating System :: OS Independent",
-	"Programming Language :: Python",
-	"Topic :: System :: Archiving",
-	"Topic :: Utilities",
-	]
+    devel_status,
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Topic :: System :: Archiving",
+    "Topic :: Utilities",
+]
+
 
 def get_version():
-	return name + ' v' + version + '/' + status
-
+    return name + " v" + version + "/" + status

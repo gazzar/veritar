@@ -3,7 +3,7 @@
 #
 #  This file is part of veritar.
 #
-#  veritar - 
+#  veritar -
 #
 #  Project: https://www.codetrax.org/projects/veritar
 #
@@ -43,22 +43,22 @@
 
 
 from distutils.core import setup
-#from setuptools import setup
+
+# from setuptools import setup
 from VeriTAR import info
 
-if __name__=='__main__':
-	setup(
-		name = info.name,
-		version = info.version,
-		description = info.description,
-		long_description = info.long_description,
-		author = info.author,
-		author_email = info.author_email,
-		url = info.url,
-		download_url = info.download_url,
-		license = info.license,
-		classifiers = info.classifiers,
-		packages = ['VeriTAR', ],
-		scripts = ['scripts/veritar', 'scripts/sigtar', ],
-		)
-
+if __name__ == "__main__":
+    setup(
+        name=info.name,
+        version=info.version,
+        description=info.description,
+        long_description=info.long_description,
+        author=info.author,
+        author_email=info.author_email,
+        url=info.url,
+        download_url=info.download_url,
+        license=info.license,
+        classifiers=info.classifiers,
+        packages=["VeriTAR"],
+        scripts=["scripts/veritar", "scripts/sigtar"],
+    )
