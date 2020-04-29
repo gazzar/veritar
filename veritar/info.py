@@ -30,6 +30,7 @@ long_description = """veritar"""
 author = "George Notaras, Gary Ruben"
 author_email = "gnot@g-loaded.eu, gary.ruben@gmail.com"
 url = "https://github.com/gazzar/veritar"
+download_url = "https://github.com/gazzar/veritar"
 
 license = "Apache License version 2"
 
