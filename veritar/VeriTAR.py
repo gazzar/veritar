@@ -39,6 +39,7 @@ def err(msg, opts=None):
         sys.stderr.write("%s\n" % msg)
         sys.stderr.flush()
 
+
 def warn(msg, opts):
     """Writes 'msg' to stderr.
     """
@@ -47,9 +48,10 @@ def warn(msg, opts):
             sys.stderr.write("%s\n" % msg)
             sys.stderr.flush()
 
+
 def info(msg, opts, force=False):
     """Writes 'msg' to stdout if verbose.
-    
+
     If force is True message is printed to stdout regardless of verbosity
     level.
     """
@@ -57,12 +59,14 @@ def info(msg, opts, force=False):
         sys.stdout.write("%s\n" % msg)
         sys.stdout.flush()
 
+
 def get_member_md5sum(f):
     """Returns the archived file's md5 sum.
-    
+
     Accepts the file descriptor of the tar member.
     """
     READ_BLOCK_SIZE = 65536
+
     def read_block():
         try:
             data_block = f.read(READ_BLOCK_SIZE)
@@ -70,6 +74,7 @@ def get_member_md5sum(f):
             raise IOError("Corrupted Member")
         else:
             return data_block
+
     m = hashlib.md5()
     data = read_block()
     while data:
@@ -80,7 +85,7 @@ def get_member_md5sum(f):
 
 def get_valid_checksums(path):
     """Returns a dictionary of items: 'name:md5sum'
-    
+
     Reads path and retrieves md5 sums and pathnames, which are stored in a
     dictionary using the format:   'name' : md5sum
     """
@@ -101,65 +106,65 @@ def get_valid_checksums(path):
 
 class Stats:
     """Verification statistics object
-    
+
     Holds counters.
     Provides functions that increase each counter and also print messages.
     """
-    L_JUST = 10    # Left justify position
-    
+
+    L_JUST = 10  # Left justify position
+
     # Counters
     Processed = 0
     Good = 0
     Skipped = 0
     Corrupted = 0
     Missing = 0
-    
+
     def __init__(self, opts):
         self.opts = opts
-    
+
     def IncProcessed(self):
         """Increases the 'Processed' counter.
-        
+
         Types of files that this counter counts:
             - Verified
             - Skipped
             - Failed
-        
+
         It does not count the 'missing'
         """
         self.Processed += 1
-    
+
     def IncGood(self, name):
         """Increases the 'Good' counter.
-        
+
         For verified files.
         """
         info("%s %s" % ("OK".ljust(self.L_JUST), name), self.opts)
         self.Good += 1
-    
+
     def IncSkipped(self, name, mtype):
         """Increases the Skipped counter.
-        
+
         'Skipped' are tar members which are not regular files.
         It does not matter whether a checksum for a non-regular file
         exists. It is not an error.
         """
-        warn("%s SKIPPING: %s (%s)" % (
-            "WARNING".ljust(self.L_JUST), name, mtype), self.opts
+        warn(
+            "%s SKIPPING: %s (%s)" % ("WARNING".ljust(self.L_JUST), name, mtype),
+            self.opts,
         )
         self.Skipped += 1
-    
+
     def IncCorrupted(self, name):
         err("%s %s" % ("CORRUPT".ljust(self.L_JUST), name), self.opts)
         self.Corrupted += 1
-    
+
     def IncMissing(self, name):
         # Tar member exists, but no checksum
         # Not a TAR integrity error,
         # but md5sum file is bad
-        warn("%s MISSING: %s" % (
-            "WARNING".ljust(self.L_JUST), name), self.opts
-        )
+        warn("%s MISSING: %s" % ("WARNING".ljust(self.L_JUST), name), self.opts)
         self.Missing += 1
 
     def summary(self):
@@ -187,15 +192,15 @@ class TarVerification:
     TAR_IGNORE_ZEROS = True
     TAR_DEBUG = 1
     TAR_ERRORLEVEL = 2
-    
+
     def __init__(self, tarpath, checksumpath, opts):
         """Constructs the verifier object.
-        
+
         Accepts:
             tarpath        : path to TAR archive
             checksumpath    : path to file with md5  checksums
             opts        : options
-        
+
         self.csums : Dictionary with 'filename:md5sum'
         self.f_tar : TAR archive file object
         self.opts  : options
@@ -205,26 +210,29 @@ class TarVerification:
         self.f_tar = self.__open_archive(tarpath)
         self.type_translator = self.__get_supported_types_dict()
         self.s = Stats(opts)
-        info("%s v%s\n\n" % \
-        (os.path.basename(sys.argv[0]), __version__), opts, force=True)
+        info(
+            "%s v%s\n\n" % (os.path.basename(sys.argv[0]), __version__),
+            opts,
+            force=True,
+        )
         if opts.quiet:
             info("please wait...\n", opts, force=True)
 
     def __open_archive(self, tarpath):
         try:
             f_tar = tarfile.open(tarpath, "r|*")
-        except tarfile.ReadError, e:
-            err("ERROR: %s: %s" % (str(e)[:str(e).find(":")], tarpath))
+        except tarfile.ReadError as e:
+            err("ERROR: %s: %s" % (str(e)[: str(e).find(":")], tarpath))
             sys.exit(1)
         else:
             f_tar.ignore_zeros = self.TAR_IGNORE_ZEROS
             f_tar.debug = self.TAR_DEBUG
             f_tar.errorlevel = self.TAR_ERRORLEVEL
             return f_tar
-    
+
     def __close_archive(self):
         self.f_tar.close()
-    
+
     def __member_md5sum(self, member):
         f = self.f_tar.extractfile(member)
         try:
@@ -241,16 +249,16 @@ class TarVerification:
         for t_attrib in dir(tarfile):
             if t_attrib.find("TYPE") != -1:
                 if t_attrib not in ("REGULAR_TYPES", "SUPPORTED_TYPES"):
-                    if not type_translator.has_key(t_attrib):
+                    if t_attrib not in type_translator:
                         type_translator[getattr(tarfile, t_attrib)] = t_attrib
         return type_translator
-    
+
     def __check_member(self, member):
         """Checks one member
         """
         self.s.IncProcessed()
         if member.isfile():
-            if self.csums.has_key(member.name):
+            if member.name in self.csums:
                 checksum = self.__member_md5sum(member)
                 if checksum == self.csums[member.name]:
                     self.s.IncGood(member.name)
@@ -260,10 +268,10 @@ class TarVerification:
             else:
                 self.s.IncMissing(member.name)
         else:
-            if self.csums.has_key(member.name):
+            if member.name in self.csums:
                 del self.csums[member.name]
             self.s.IncSkipped(member.name, self.type_translator[member.type])
-    
+
     def __process_remnants(self):
         """If the checksums-file contains more items than the TAR
         members it is assumed that the archive is corrupted.
@@ -272,6 +280,7 @@ class TarVerification:
             for remnant in self.csums.keys():
                 self.s.IncProcessed()
                 self.s.IncCorrupted(remnant)
+
     def run(self):
         while True:
             try:
@@ -297,22 +306,35 @@ def parse_cli():
     checksum_file format:  'md5sum  path'"""
     parser = OptionParser(usage=usage, version=__version__)
     parser.add_option(
-        "-v", "--verbose", action="store_true", dest="verbose",
-        help="""Print all messages. Cannot be used with -q."""
+        "-v",
+        "--verbose",
+        action="store_true",
+        dest="verbose",
+        help="""Print all messages. Cannot be used with -q.""",
     )
     parser.add_option(
-        "-q", "--quiet", action="store_true", dest="quiet",
-        help=dedent("""\
+        "-q",
+        "--quiet",
+        action="store_true",
+        dest="quiet",
+        help=dedent(
+            """\
             Only checksum errors will be printed. Warnings are \
             suppressed.Cannot be used with - v. """
-        )
+        ),
     )
-    parser.add_option("-n", "--no-warn", action="store_true", dest="nowarn",
-        help=dedent("""\
+    parser.add_option(
+        "-n",
+        "--no-warn",
+        action="store_true",
+        dest="nowarn",
+        help=dedent(
+            """\
             Warnings are suppressed. Note that using this switch \
             together with -q has absolutely no effect, since -q suppresses warnings \
             anyway. """
-        )
+        ),
+    )
     opts, args = parser.parse_args()
     if len(args) != 2:
         parser.error("Wrong number of arguments")
@@ -337,11 +359,9 @@ def main():
         sys.exit(1)
     else:
         finish = time.time()
-        sys.stdout.write("Elapsed: %.3f sec\n" % (finish -start))
+        sys.stdout.write("Elapsed: %.3f sec\n" % (finish - start))
         sys.stdout.flush()
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
