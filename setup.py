@@ -58,6 +58,6 @@ if __name__ == "__main__":
         download_url=info.download_url,
         license=info.license,
         classifiers=info.classifiers,
-        packages=["VeriTAR"],
+        packages=["veritar"],
         scripts=["scripts/veritar", "scripts/sigtar"],
     )

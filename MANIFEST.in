@@ -10,5 +10,5 @@ include setup.cfg
 include setup.py
 include scripts/veritar
 include scripts/sigtar
-recursive-include VeriTAR *.py
+recursive-include veritar *.py
 
