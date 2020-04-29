@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  SigTAR: Creates a TAR archive and a file containing the md5 sums of each of
+#  sigtar: Creates a TAR archive and a file containing the md5 sums of each of
 #          the archive's contents.
 #
 #  Project: https://www.codetrax.org/projects/veritar
@@ -21,7 +21,7 @@
 #  limitations under the License.
 #
 
-import VeriTAR.SigTAR
+import veritar.sigtar
 
-VeriTAR.SigTAR.main()
+veritar.sigtar.main()
 
