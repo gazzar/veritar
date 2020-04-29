@@ -17,7 +17,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-# Hmm
+#
 
 __version__ = "0.5.0"
 __author__ = "George Notaras <gnot -at- g-loaded.eu>"
